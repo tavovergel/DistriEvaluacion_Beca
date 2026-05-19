@@ -450,7 +450,7 @@
       <h3>📤 Guardar y enviar resultados</h3>
       <p>Guarda en Google Sheets para el dashboard consolidado, envía el correo al coordinador, o descarga tus datos.</p>
       <div class="send-btns">
-        <button class="btn btn-primary" id="btn-sheets" onclick="saveToSheets()">📊 Guardar en Sheets</button>
+        <button class="btn btn-primary" id="btn-sheets" onclick="saveToSheets()">📊 Enviar Evaluación</button>
         <button class="btn btn-ghost" id="btn-email" onclick="sendEmail()">✉ Enviar correo</button>
         <button class="btn btn-ghost" onclick="exportCSV()">⬇ CSV</button>
       </div>
@@ -718,7 +718,7 @@ async function saveToSheets() {
 
   btn.disabled=true;
   status.className='send-status sending';
-  status.textContent='⏳ Guardando en Google Sheets…';
+  status.textContent='⏳ Enviando Evaluación...';
 
   try {
     const resp = await fetch(APPS_SCRIPT_URL, {
@@ -729,7 +729,7 @@ async function saveToSheets() {
     });
     // no-cors no retorna body, asumimos éxito si no hay error
     status.className='send-status success';
-    status.textContent='✓ Datos guardados correctamente en Google Sheets. Ya aparecen en el dashboard.';
+    status.textContent='✓ Evaluación Guardada Correctamente. Ya aparecen en el dashboard.';
     btn.textContent='✓ Guardado';
     showToast('✓ Guardado en Sheets');
   } catch(err) {
