@@ -243,7 +243,7 @@
 <div class="page active" id="page-intro">
   <div class="hero">
     <img src="grupodistri.png" alt="Grupodistri" style="height:52px;width:auto;margin-bottom:28px;opacity:.9;">
-    <div class="badge">Programa de Becas 2025</div>
+    <div class="badge">Programa de Becas 2026</div>
     <h2>Evaluación de<br>Proyectos Posgrado</h2>
     <p>Lee la guía de criterios antes de iniciar. Podrás evaluar a cada candidato por separado y enviar cada evaluación de forma independiente.</p>
     <button class="btn btn-primary" onclick="goPage('page-identity')">Comenzar evaluación →</button>
@@ -476,7 +476,7 @@
   <div class="dash-wrap">
     <div class="dash-header">
       <div>
-        <div class="dash-title">Dashboard · Beca Posgrado 2025</div>
+        <div class="dash-title">Dashboard · Beca Posgrado 2026</div>
         <div class="dash-sub">Resultados consolidados en tiempo real</div>
       </div>
       <button class="dash-refresh" onclick="loadDashboard()">↻ Actualizar</button>
@@ -681,7 +681,7 @@ function finalizeSingle(){
 
   // Reset botón sheets
   const btn=document.getElementById('btn-sheets-single');
-  btn.disabled=false; btn.textContent='📊 Guardar en Sheets';
+  btn.disabled=false; btn.textContent='📊 Guardar Evaluación';
   document.getElementById('send-status-single').className='send-status';
 
   saveLocalStorage();
@@ -710,12 +710,12 @@ async function saveSingleToSheets(){
 
   btn.disabled=true;
   status.className='send-status sending';
-  status.textContent='⏳ Guardando en Google Sheets…';
+  status.textContent='⏳ Enviando Evaluación...';
 
   try{
     await fetch(APPS_SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({filas})});
     status.className='send-status success';
-    status.textContent=`✓ Evaluación de ${ev} guardada en Sheets.`;
+    status.textContent=`✓ Evaluación de ${ev} guardada Evaluación.`;
     btn.textContent='✓ Guardado';
     sentList[ev]=true;
     buildSelector(); // actualiza las cards
