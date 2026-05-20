@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Evaluación Beca Posgrado · Grupodistri</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <style>
   :root {
     --deep:#0a0f1e;--navy:#111827;--card:#161d2e;--border:#1e2d47;
@@ -19,7 +18,6 @@
     background:radial-gradient(ellipse 80% 60% at 20% 10%,rgba(201,168,76,.07) 0%,transparent 60%),
                radial-gradient(ellipse 60% 80% at 80% 90%,rgba(30,60,100,.4) 0%,transparent 60%);}
   #progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold-light));transition:width .4s;z-index:100;}
-
   header{position:relative;z-index:10;padding:24px 40px 0;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
   .logo{display:flex;align-items:center;flex-shrink:0;}
   .logo img{height:38px;width:auto;object-fit:contain;}
@@ -27,17 +25,12 @@
   .nav-link{font-size:.82rem;color:var(--muted);cursor:pointer;padding:8px 16px;border:1px solid var(--border);border-radius:100px;transition:.2s;background:transparent;font-family:'DM Sans',sans-serif;}
   .nav-link:hover{border-color:var(--gold);color:var(--gold);}
   .nav-link.active-nav{border-color:var(--gold);color:var(--gold);background:var(--gold-pale);}
-
   .page{display:none;position:relative;z-index:5;}
   .page.active{display:block;}
-
-  /* HERO */
   .hero{max-width:820px;margin:0 auto;padding:60px 40px 40px;text-align:center;}
   .badge{display:inline-block;padding:5px 16px;border:1px solid var(--gold);border-radius:100px;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:28px;}
   .hero h2{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,5vw,3.4rem);font-weight:600;line-height:1.12;margin-bottom:20px;background:linear-gradient(135deg,var(--white) 40%,var(--gold-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
   .hero p{color:var(--muted);font-size:1rem;line-height:1.75;max-width:600px;margin:0 auto 48px;}
-
-  /* GUIDE */
   .guide-section{max-width:900px;margin:0 auto 60px;padding:0 40px;}
   .guide-title{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:600;color:var(--white);margin-bottom:6px;}
   .guide-sub{color:var(--muted);font-size:.85rem;margin-bottom:28px;}
@@ -63,16 +56,12 @@
   .s3{background:rgba(96,165,250,.12);color:#60a5fa;}
   .s4{background:rgba(52,211,153,.12);color:#34d399;}
   .s5{background:rgba(201,168,76,.2);color:var(--gold-light);}
-
-  /* BUTTONS */
   .btn{display:inline-flex;align-items:center;gap:8px;padding:13px 30px;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:.92rem;font-weight:500;border:none;cursor:pointer;transition:.25s;}
   .btn-primary{background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--deep);}
   .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(201,168,76,.35);}
   .btn-primary:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none;}
   .btn-ghost{background:transparent;border:1px solid var(--border);color:var(--muted);}
   .btn-ghost:hover{border-color:var(--gold);color:var(--gold);}
-
-  /* FORM */
   .form-wrap{max-width:720px;margin:0 auto;padding:50px 40px;}
   .section-label{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:18px;display:flex;align-items:center;gap:10px;}
   .section-label::after{content:'';flex:1;height:1px;background:var(--border);}
@@ -83,28 +72,22 @@
   .field select:focus,.field input:focus{border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-pale);}
   .field select option{background:var(--navy);}
   .required-star{color:var(--gold);}
-
-  /* ══════════════════════════════════
-     SELECTOR DE EVALUADO (nuevo)
-  ══════════════════════════════════ */
   .evaluado-selector{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:32px;}
   .evaluado-card{background:var(--card);border:2px solid var(--border);border-radius:16px;padding:20px 18px;cursor:pointer;transition:.2s;text-align:center;position:relative;}
-  .evaluado-card:hover{border-color:var(--gold);background:var(--gold-pale);}
-  .evaluado-card.selected{border-color:var(--gold);background:var(--gold-pale);}
-  .evaluado-card.done-card{border-color:var(--success);background:rgba(52,211,153,.06);}
+  .evaluado-card:hover:not(.done-card){border-color:var(--gold);background:var(--gold-pale);}
+  .evaluado-card.done-card{border-color:var(--success);background:rgba(52,211,153,.06);cursor:default;}
   .evaluado-avatar{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-light));display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;color:var(--deep);margin:0 auto 12px;}
+  .done-card .evaluado-avatar{background:linear-gradient(135deg,var(--success),#6ee7b7);}
   .evaluado-name{font-size:.9rem;font-weight:600;color:var(--text);}
   .evaluado-status{font-size:.72rem;color:var(--muted);margin-top:5px;}
   .done-badge{position:absolute;top:10px;right:10px;background:rgba(52,211,153,.2);color:var(--success);font-size:.65rem;padding:2px 7px;border-radius:100px;font-weight:600;}
-
-  /* EVAL */
+  .selector-info{font-size:.82rem;color:var(--muted);margin-bottom:20px;padding:12px 16px;background:var(--card);border:1px solid var(--border);border-radius:10px;}
   .eval-header-info{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px 20px;margin-bottom:24px;display:flex;align-items:center;gap:14px;}
   .eval-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-light));display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;color:var(--deep);flex-shrink:0;}
   .eval-name-big{font-size:1rem;font-weight:600;color:var(--white);}
   .eval-sub{font-size:.78rem;color:var(--muted);}
   .eval-change{margin-left:auto;font-size:.78rem;color:var(--gold);cursor:pointer;border:1px solid var(--gold);padding:5px 12px;border-radius:100px;background:transparent;font-family:'DM Sans',sans-serif;transition:.2s;}
   .eval-change:hover{background:var(--gold-pale);}
-
   .criterion-block{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px;margin-bottom:14px;}
   .crit-q{font-size:.92rem;font-weight:600;}
   .crit-hint{font-size:.78rem;color:var(--muted);margin:7px 0 18px;line-height:1.5;}
@@ -124,16 +107,11 @@
   .comment-area textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-pale);}
   .weighted-score{margin-top:9px;font-size:.78rem;color:var(--muted);}
   .weighted-score span{color:var(--gold);font-weight:600;}
-
-  /* PROGRESS */
   .eval-progress{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px 22px;margin-bottom:24px;}
   .prog-header{display:flex;justify-content:space-between;margin-bottom:8px;font-size:.8rem;color:var(--muted);}
   .prog-bar{height:5px;background:var(--border);border-radius:100px;overflow:hidden;}
   .prog-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-light));border-radius:100px;transition:width .4s;}
-
-  /* RESULT CARD individual */
   .single-result{max-width:480px;margin:0 auto 32px;background:var(--card);border:1px solid var(--border);border-radius:20px;padding:32px;text-align:center;}
-  .single-result.winner{border-color:var(--gold);}
   .sr-name{font-size:.9rem;color:var(--muted);margin-bottom:12px;}
   .sr-score{font-family:'Cormorant Garamond',serif;font-size:4rem;font-weight:700;color:var(--gold-light);line-height:1;}
   .sr-label{font-size:.78rem;color:var(--muted);margin-top:4px;}
@@ -143,8 +121,6 @@
   .sr-row{display:flex;justify-content:space-between;font-size:.75rem;}
   .sr-row span:first-child{color:var(--muted);}
   .sr-row span:last-child{color:var(--gold);}
-
-  /* SEND BOX */
   .send-section{max-width:560px;margin:0 auto;padding:0 40px 20px;}
   .send-box{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:26px 28px;}
   .send-box h3{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--white);margin-bottom:5px;}
@@ -154,14 +130,10 @@
   .send-status.success{display:block;background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.3);color:var(--success);}
   .send-status.error{display:block;background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);color:var(--danger);}
   .send-status.sending{display:block;background:var(--gold-pale);border:1px solid var(--gold);color:var(--gold-light);}
-
-  /* NEXT ACTIONS */
   .next-actions{max-width:560px;margin:0 auto;padding:0 40px 60px;}
   .next-box{background:var(--card);border:1px dashed var(--border);border-radius:16px;padding:22px 24px;margin-top:14px;}
   .next-box p{font-size:.82rem;color:var(--muted);margin-bottom:14px;line-height:1.6;}
   .next-btns{display:flex;gap:10px;flex-wrap:wrap;}
-
-  /* DASHBOARD */
   .dash-wrap{max-width:1100px;margin:0 auto;padding:50px 40px;}
   .dash-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:36px;flex-wrap:wrap;gap:12px;}
   .dash-title{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;color:var(--white);}
@@ -215,16 +187,12 @@
   .dash-empty{text-align:center;padding:60px 20px;color:var(--muted);}
   .dash-empty .big-icon{font-size:3rem;margin-bottom:16px;}
   .dash-loading{text-align:center;padding:60px;color:var(--muted);}
-
-  .action-row{display:flex;gap:12px;justify-content:center;padding:20px 40px;flex-wrap:wrap;}
   .footnote{text-align:center;color:var(--muted);font-size:.76rem;padding-bottom:50px;}
   .toast{position:fixed;bottom:24px;right:24px;background:var(--card);border:1px solid var(--gold);border-radius:12px;padding:13px 18px;font-size:.83rem;color:var(--text);box-shadow:0 8px 30px rgba(0,0,0,.4);transform:translateY(80px);opacity:0;transition:.3s;z-index:200;}
   .toast.show{transform:translateY(0);opacity:1;}
-
   @media(max-width:640px){
     header{padding:18px 20px 0;}
     .hero,.form-wrap,.guide-section,.dash-wrap,.send-section,.next-actions{padding-left:20px;padding-right:20px;}
-    .action-row{padding:16px 20px;}
     .id-grid{grid-template-columns:1fr;}
     .send-btns,.next-btns{flex-direction:column;}
   }
@@ -239,7 +207,7 @@
   <button class="nav-link" id="nav-dash" onclick="loadDashboard();goPage('page-dashboard')">📊 Dashboard</button>
 </header>
 
-<!-- ═══ PAGE 1: INTRO + GUÍA ═══ -->
+<!-- PAGE 1: INTRO -->
 <div class="page active" id="page-intro">
   <div class="hero">
     <img src="grupodistri.png" alt="Grupodistri" style="height:52px;width:auto;margin-bottom:28px;opacity:.9;">
@@ -251,119 +219,83 @@
   <div class="guide-section">
     <h3 class="guide-title">Guía de criterios</h3>
     <p class="guide-sub">Haz clic en cada criterio para ver la tabla de puntuación del 1 al 5.</p>
-
     <div class="crit-detail-card" id="card-impacto">
       <div class="crit-detail-header" onclick="toggleCard('card-impacto')">
         <div class="crit-detail-icon">📈</div>
-        <div class="crit-detail-info">
-          <div class="crit-detail-name">1. Impacto</div>
-          <div class="crit-detail-desc">¿El proyecto muestra con números qué tanto mejora? % de mejora, ahorro ($), reducción de tiempos o errores.</div>
-        </div>
-        <span class="crit-weight-badge">30%</span>
-        <span class="crit-chevron">▼</span>
+        <div class="crit-detail-info"><div class="crit-detail-name">1. Impacto</div><div class="crit-detail-desc">¿El proyecto muestra con números qué tanto mejora? % de mejora, ahorro ($), reducción de tiempos o errores.</div></div>
+        <span class="crit-weight-badge">30%</span><span class="crit-chevron">▼</span>
       </div>
-      <div class="crit-scale-table">
-        <table class="scale-table"><thead><tr><th>Puntaje</th><th>Criterio</th><th>Guía</th></tr></thead><tbody>
-          <tr><td><span class="score-dot s1">1</span></td><td><strong>Sin datos</strong></td><td style="color:var(--muted);font-size:.78rem">No presenta indicadores cuantitativos. Impacto vago o ausente.</td></tr>
-          <tr><td><span class="score-dot s2">2</span></td><td><strong>Datos poco claros</strong></td><td style="color:var(--muted);font-size:.78rem">Menciona mejoras sin cifras concretas o con datos inconsistentes.</td></tr>
-          <tr><td><span class="score-dot s3">3</span></td><td><strong>Estimación básica</strong></td><td style="color:var(--muted);font-size:.78rem">Incluye dato cuantitativo pero con estimaciones generales, sin sustento metodológico.</td></tr>
-          <tr><td><span class="score-dot s4">4</span></td><td><strong>Bien medido</strong></td><td style="color:var(--muted);font-size:.78rem">Indicadores claros con datos reales o estimaciones bien fundamentadas. Impacto verificable.</td></tr>
-          <tr><td><span class="score-dot s5">5</span></td><td><strong>Muy sustentado</strong></td><td style="color:var(--muted);font-size:.78rem">Datos precisos, fuentes confiables, KPIs definidos y análisis antes/después. Muy convincente.</td></tr>
-        </tbody></table>
-      </div>
+      <div class="crit-scale-table"><table class="scale-table"><thead><tr><th>Puntaje</th><th>Criterio</th><th>Guía</th></tr></thead><tbody>
+        <tr><td><span class="score-dot s1">1</span></td><td><strong>Sin datos</strong></td><td style="color:var(--muted);font-size:.78rem">No presenta indicadores cuantitativos. Impacto vago o ausente.</td></tr>
+        <tr><td><span class="score-dot s2">2</span></td><td><strong>Datos poco claros</strong></td><td style="color:var(--muted);font-size:.78rem">Menciona mejoras sin cifras concretas o con datos inconsistentes.</td></tr>
+        <tr><td><span class="score-dot s3">3</span></td><td><strong>Estimación básica</strong></td><td style="color:var(--muted);font-size:.78rem">Incluye dato cuantitativo pero con estimaciones generales, sin sustento metodológico.</td></tr>
+        <tr><td><span class="score-dot s4">4</span></td><td><strong>Bien medido</strong></td><td style="color:var(--muted);font-size:.78rem">Indicadores claros con datos reales o estimaciones bien fundamentadas.</td></tr>
+        <tr><td><span class="score-dot s5">5</span></td><td><strong>Muy sustentado</strong></td><td style="color:var(--muted);font-size:.78rem">Datos precisos, KPIs definidos y análisis antes/después. Muy convincente.</td></tr>
+      </tbody></table></div>
     </div>
-
     <div class="crit-detail-card" id="card-facilidad">
       <div class="crit-detail-header" onclick="toggleCard('card-facilidad')">
         <div class="crit-detail-icon">⚙️</div>
-        <div class="crit-detail-info">
-          <div class="crit-detail-name">2. Facilidad de implementación</div>
-          <div class="crit-detail-desc">¿Qué tan fácil es ejecutar el proyecto? Tiempos, dependencias y complejidad operativa.</div>
-        </div>
-        <span class="crit-weight-badge">20%</span>
-        <span class="crit-chevron">▼</span>
+        <div class="crit-detail-info"><div class="crit-detail-name">2. Facilidad de implementación</div><div class="crit-detail-desc">¿Qué tan fácil es ejecutar el proyecto? Tiempos, dependencias y complejidad operativa.</div></div>
+        <span class="crit-weight-badge">20%</span><span class="crit-chevron">▼</span>
       </div>
-      <div class="crit-scale-table">
-        <table class="scale-table"><thead><tr><th>Puntaje</th><th>Criterio</th><th>Guía</th></tr></thead><tbody>
-          <tr><td><span class="score-dot s1">1</span></td><td><strong>Muy difícil</strong></td><td style="color:var(--muted);font-size:.78rem">Cambios estructurales, múltiples dependencias, más de 2 años de implementación.</td></tr>
-          <tr><td><span class="score-dot s2">2</span></td><td><strong>Difícil</strong></td><td style="color:var(--muted);font-size:.78rem">Varias áreas involucradas, 1-2 años y alta coordinación interdepartamental.</td></tr>
-          <tr><td><span class="score-dot s3">3</span></td><td><strong>Complejidad media</strong></td><td style="color:var(--muted);font-size:.78rem">Implementación en 6-12 meses con algunas dependencias manejables.</td></tr>
-          <tr><td><span class="score-dot s4">4</span></td><td><strong>Fácil</strong></td><td style="color:var(--muted);font-size:.78rem">Proyecto acotado, pocas dependencias, 3-6 meses, recursos disponibles.</td></tr>
-          <tr><td><span class="score-dot s5">5</span></td><td><strong>Muy fácil</strong></td><td style="color:var(--muted);font-size:.78rem">Menos de 3 meses, dentro del área, sin dependencias críticas.</td></tr>
-        </tbody></table>
-      </div>
+      <div class="crit-scale-table"><table class="scale-table"><thead><tr><th>Puntaje</th><th>Criterio</th><th>Guía</th></tr></thead><tbody>
+        <tr><td><span class="score-dot s1">1</span></td><td><strong>Muy difícil</strong></td><td style="color:var(--muted);font-size:.78rem">Cambios estructurales, múltiples dependencias, más de 2 años.</td></tr>
+        <tr><td><span class="score-dot s2">2</span></td><td><strong>Difícil</strong></td><td style="color:var(--muted);font-size:.78rem">Varias áreas, 1-2 años y alta coordinación interdepartamental.</td></tr>
+        <tr><td><span class="score-dot s3">3</span></td><td><strong>Complejidad media</strong></td><td style="color:var(--muted);font-size:.78rem">6-12 meses con algunas dependencias manejables.</td></tr>
+        <tr><td><span class="score-dot s4">4</span></td><td><strong>Fácil</strong></td><td style="color:var(--muted);font-size:.78rem">Acotado, pocas dependencias, 3-6 meses, recursos disponibles.</td></tr>
+        <tr><td><span class="score-dot s5">5</span></td><td><strong>Muy fácil</strong></td><td style="color:var(--muted);font-size:.78rem">Menos de 3 meses, dentro del área, sin dependencias críticas.</td></tr>
+      </tbody></table></div>
     </div>
-
     <div class="crit-detail-card" id="card-relevancia">
       <div class="crit-detail-header" onclick="toggleCard('card-relevancia')">
         <div class="crit-detail-icon">🎯</div>
-        <div class="crit-detail-info">
-          <div class="crit-detail-name">3. Relevancia</div>
-          <div class="crit-detail-desc">¿El problema que resuelve es importante para la compañía? Nivel estratégico, táctico u operativo.</div>
-        </div>
-        <span class="crit-weight-badge">20%</span>
-        <span class="crit-chevron">▼</span>
+        <div class="crit-detail-info"><div class="crit-detail-name">3. Relevancia</div><div class="crit-detail-desc">¿El problema es importante para la compañía? Nivel estratégico, táctico u operativo.</div></div>
+        <span class="crit-weight-badge">20%</span><span class="crit-chevron">▼</span>
       </div>
-      <div class="crit-scale-table">
-        <table class="scale-table"><thead><tr><th>Puntaje</th><th>Criterio</th><th>Guía</th></tr></thead><tbody>
-          <tr><td><span class="score-dot s1">1</span></td><td><strong>Poco relevante</strong></td><td style="color:var(--muted);font-size:.78rem">Bajo impacto. Resuelve algo marginal o ya atendido adecuadamente.</td></tr>
-          <tr><td><span class="score-dot s2">2</span></td><td><strong>Bajo impacto</strong></td><td style="color:var(--muted);font-size:.78rem">Necesidad operativa menor sin repercusión amplia en la organización.</td></tr>
-          <tr><td><span class="score-dot s3">3</span></td><td><strong>Impacto medio</strong></td><td style="color:var(--muted);font-size:.78rem">Mejora la eficiencia de un área con repercusión táctica moderada.</td></tr>
-          <tr><td><span class="score-dot s4">4</span></td><td><strong>Importante</strong></td><td style="color:var(--muted);font-size:.78rem">Afecta múltiples áreas o proceso clave, con impacto táctico-estratégico claro.</td></tr>
-          <tr><td><span class="score-dot s5">5</span></td><td><strong>Crítico / Estratégico</strong></td><td style="color:var(--muted);font-size:.78rem">Compromete competitividad o rentabilidad. Alineado a la estrategia corporativa.</td></tr>
-        </tbody></table>
-      </div>
+      <div class="crit-scale-table"><table class="scale-table"><thead><tr><th>Puntaje</th><th>Criterio</th><th>Guía</th></tr></thead><tbody>
+        <tr><td><span class="score-dot s1">1</span></td><td><strong>Poco relevante</strong></td><td style="color:var(--muted);font-size:.78rem">Bajo impacto. Marginal o ya atendido.</td></tr>
+        <tr><td><span class="score-dot s2">2</span></td><td><strong>Bajo impacto</strong></td><td style="color:var(--muted);font-size:.78rem">Necesidad operativa menor sin repercusión amplia.</td></tr>
+        <tr><td><span class="score-dot s3">3</span></td><td><strong>Impacto medio</strong></td><td style="color:var(--muted);font-size:.78rem">Mejora la eficiencia de un área con repercusión táctica moderada.</td></tr>
+        <tr><td><span class="score-dot s4">4</span></td><td><strong>Importante</strong></td><td style="color:var(--muted);font-size:.78rem">Afecta múltiples áreas o proceso clave con impacto táctico-estratégico.</td></tr>
+        <tr><td><span class="score-dot s5">5</span></td><td><strong>Crítico / Estratégico</strong></td><td style="color:var(--muted);font-size:.78rem">Compromete competitividad. Alineado a la estrategia corporativa.</td></tr>
+      </tbody></table></div>
     </div>
-
     <div class="crit-detail-card" id="card-recursos">
       <div class="crit-detail-header" onclick="toggleCard('card-recursos')">
         <div class="crit-detail-icon">💼</div>
-        <div class="crit-detail-info">
-          <div class="crit-detail-name">4. Recursos requeridos</div>
-          <div class="crit-detail-desc">¿Qué tanto recurso necesita? Dinero, personas y tecnología frente al retorno esperado.</div>
-        </div>
-        <span class="crit-weight-badge">15%</span>
-        <span class="crit-chevron">▼</span>
+        <div class="crit-detail-info"><div class="crit-detail-name">4. Recursos requeridos</div><div class="crit-detail-desc">¿Qué tanto recurso necesita? Dinero, personas y tecnología frente al retorno esperado.</div></div>
+        <span class="crit-weight-badge">15%</span><span class="crit-chevron">▼</span>
       </div>
-      <div class="crit-scale-table">
-        <table class="scale-table"><thead><tr><th>Puntaje</th><th>Criterio</th><th>Guía</th></tr></thead><tbody>
-          <tr><td><span class="score-dot s1">1</span></td><td><strong>Muy costoso</strong></td><td style="color:var(--muted);font-size:.78rem">Alta inversión con ROI incierto o a largo plazo.</td></tr>
-          <tr><td><span class="score-dot s2">2</span></td><td><strong>Costoso</strong></td><td style="color:var(--muted);font-size:.78rem">Recursos significativos con retorno a mediano plazo.</td></tr>
-          <tr><td><span class="score-dot s3">3</span></td><td><strong>Inversión media</strong></td><td style="color:var(--muted);font-size:.78rem">Recursos moderados. El retorno justifica la inversión.</td></tr>
-          <tr><td><span class="score-dot s4">4</span></td><td><strong>Bajo costo</strong></td><td style="color:var(--muted);font-size:.78rem">Usa principalmente recursos existentes. Inversión incremental baja.</td></tr>
-          <tr><td><span class="score-dot s5">5</span></td><td><strong>Mínimo o sin costo</strong></td><td style="color:var(--muted);font-size:.78rem">Se ejecuta con recursos actuales sin presupuesto adicional significativo.</td></tr>
-        </tbody></table>
-      </div>
+      <div class="crit-scale-table"><table class="scale-table"><thead><tr><th>Puntaje</th><th>Criterio</th><th>Guía</th></tr></thead><tbody>
+        <tr><td><span class="score-dot s1">1</span></td><td><strong>Muy costoso</strong></td><td style="color:var(--muted);font-size:.78rem">Alta inversión con ROI incierto o a largo plazo.</td></tr>
+        <tr><td><span class="score-dot s2">2</span></td><td><strong>Costoso</strong></td><td style="color:var(--muted);font-size:.78rem">Recursos significativos con retorno a mediano plazo.</td></tr>
+        <tr><td><span class="score-dot s3">3</span></td><td><strong>Inversión media</strong></td><td style="color:var(--muted);font-size:.78rem">Moderados. El retorno justifica la inversión.</td></tr>
+        <tr><td><span class="score-dot s4">4</span></td><td><strong>Bajo costo</strong></td><td style="color:var(--muted);font-size:.78rem">Principalmente recursos existentes. Inversión baja.</td></tr>
+        <tr><td><span class="score-dot s5">5</span></td><td><strong>Mínimo o sin costo</strong></td><td style="color:var(--muted);font-size:.78rem">Recursos actuales sin presupuesto adicional significativo.</td></tr>
+      </tbody></table></div>
     </div>
-
     <div class="crit-detail-card" id="card-claridad">
       <div class="crit-detail-header" onclick="toggleCard('card-claridad')">
         <div class="crit-detail-icon">📋</div>
-        <div class="crit-detail-info">
-          <div class="crit-detail-name">5. Claridad y presentación</div>
-          <div class="crit-detail-desc">¿Se entiende bien el proyecto? ¿Cumplió con el formato de presentación establecido?</div>
-        </div>
-        <span class="crit-weight-badge">15%</span>
-        <span class="crit-chevron">▼</span>
+        <div class="crit-detail-info"><div class="crit-detail-name">5. Claridad y presentación</div><div class="crit-detail-desc">¿Se entiende bien el proyecto? ¿Cumplió con el formato de presentación?</div></div>
+        <span class="crit-weight-badge">15%</span><span class="crit-chevron">▼</span>
       </div>
-      <div class="crit-scale-table">
-        <table class="scale-table"><thead><tr><th>Puntaje</th><th>Criterio</th><th>Guía</th></tr></thead><tbody>
-          <tr><td><span class="score-dot s1">1</span></td><td><strong>Confuso</strong></td><td style="color:var(--muted);font-size:.78rem">Sin estructura. No se entiende qué resuelve ni cómo.</td></tr>
-          <tr><td><span class="score-dot s2">2</span></td><td><strong>Poco claro</strong></td><td style="color:var(--muted);font-size:.78rem">Incompleto, secciones faltantes o argumentación débil.</td></tr>
-          <tr><td><span class="score-dot s3">3</span></td><td><strong>Entendible</strong></td><td style="color:var(--muted);font-size:.78rem">Se comprende y cumple el formato básico, con algunas secciones poco desarrolladas.</td></tr>
-          <tr><td><span class="score-dot s4">4</span></td><td><strong>Claro y completo</strong></td><td style="color:var(--muted);font-size:.78rem">Cumple el formato con estructura lógica y argumentación sólida.</td></tr>
-          <tr><td><span class="score-dot s5">5</span></td><td><strong>Muy claro y ejemplar</strong></td><td style="color:var(--muted);font-size:.78rem">Impecable. Narrativa persuasiva, bien estructurada, sin ambigüedades.</td></tr>
-        </tbody></table>
-      </div>
+      <div class="crit-scale-table"><table class="scale-table"><thead><tr><th>Puntaje</th><th>Criterio</th><th>Guía</th></tr></thead><tbody>
+        <tr><td><span class="score-dot s1">1</span></td><td><strong>Confuso</strong></td><td style="color:var(--muted);font-size:.78rem">Sin estructura. No se entiende qué resuelve ni cómo.</td></tr>
+        <tr><td><span class="score-dot s2">2</span></td><td><strong>Poco claro</strong></td><td style="color:var(--muted);font-size:.78rem">Incompleto, secciones faltantes o argumentación débil.</td></tr>
+        <tr><td><span class="score-dot s3">3</span></td><td><strong>Entendible</strong></td><td style="color:var(--muted);font-size:.78rem">Se comprende y cumple el formato básico.</td></tr>
+        <tr><td><span class="score-dot s4">4</span></td><td><strong>Claro y completo</strong></td><td style="color:var(--muted);font-size:.78rem">Formato con estructura lógica y argumentación sólida.</td></tr>
+        <tr><td><span class="score-dot s5">5</span></td><td><strong>Muy claro y ejemplar</strong></td><td style="color:var(--muted);font-size:.78rem">Impecable. Persuasivo, bien estructurado, sin ambigüedades.</td></tr>
+      </tbody></table></div>
     </div>
-
     <div style="text-align:center;margin-top:36px">
       <button class="btn btn-primary" onclick="goPage('page-identity')">Entendido — iniciar →</button>
     </div>
   </div>
 </div>
 
-<!-- ═══ PAGE 2: IDENTIDAD ═══ -->
+<!-- PAGE 2: IDENTIDAD -->
 <div class="page" id="page-identity">
   <div class="form-wrap">
     <div class="badge" style="display:inline-block;margin-bottom:22px">Paso 1 de 3</div>
@@ -397,17 +329,18 @@
     </div>
     <div style="display:flex;gap:12px;flex-wrap:wrap">
       <button class="btn btn-ghost" onclick="goPage('page-intro')">← Guía</button>
-      <button class="btn btn-primary" onclick="validateIdentity()">Continuar →</button>
+      <button class="btn btn-primary" id="btn-continuar" onclick="validateIdentity()">Continuar →</button>
     </div>
   </div>
 </div>
 
-<!-- ═══ PAGE 3: SELECCIÓN DE EVALUADO ═══ -->
+<!-- PAGE 3: SELECCIÓN -->
 <div class="page" id="page-select">
   <div class="form-wrap">
     <div class="badge" style="display:inline-block;margin-bottom:22px">Paso 2 de 3</div>
     <h2 style="font-family:'Cormorant Garamond',serif;font-size:1.9rem;margin-bottom:8px;color:var(--white)">¿A quién vas a evaluar?</h2>
-    <p style="color:var(--muted);margin-bottom:28px;font-size:.88rem">Selecciona un candidato, completa su evaluación y envíala. Luego puedes regresar y evaluar al siguiente.</p>
+    <p style="color:var(--muted);margin-bottom:16px;font-size:.88rem">Selecciona un candidato pendiente. Los marcados en verde ya fueron enviados por ti.</p>
+    <div class="selector-info" id="selector-info"></div>
     <div class="evaluado-selector" id="evaluado-selector"></div>
     <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px">
       <button class="btn btn-ghost" onclick="goPage('page-identity')">← Atrás</button>
@@ -415,7 +348,7 @@
   </div>
 </div>
 
-<!-- ═══ PAGE 4: EVALUACIÓN ═══ -->
+<!-- PAGE 4: EVALUACIÓN -->
 <div class="page" id="page-eval">
   <div class="form-wrap">
     <div class="badge" style="display:inline-block;margin-bottom:22px">Paso 3 de 3</div>
@@ -439,14 +372,13 @@
   </div>
 </div>
 
-<!-- ═══ PAGE 5: RESULTADO INDIVIDUAL ═══ -->
+<!-- PAGE 5: RESULTADO -->
 <div class="page" id="page-result">
   <div style="text-align:center;padding:50px 40px 20px">
     <h2 style="font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:600;background:linear-gradient(135deg,var(--white) 40%,var(--gold-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:6px">Evaluación lista</h2>
     <p style="color:var(--muted);font-size:.88rem" id="result-meta"></p>
   </div>
   <div class="single-result" id="single-result-card"></div>
-
   <div class="send-section">
     <div class="send-box">
       <h3>📤 Enviar esta evaluación</h3>
@@ -458,12 +390,11 @@
       <div class="send-status" id="send-status-single"></div>
     </div>
   </div>
-
   <div class="next-actions">
     <div class="next-box">
-      <p id="next-msg">¿Deseas evaluar a otro candidato? Regresa a la selección o ve al dashboard para ver los resultados acumulados.</p>
+      <p id="next-msg"></p>
       <div class="next-btns">
-        <button class="btn btn-primary" onclick="goPage('page-select')" id="btn-next-eval">Evaluar otro candidato →</button>
+        <button class="btn btn-primary" onclick="goPage('page-select')">Evaluar otro candidato →</button>
         <button class="btn btn-ghost" onclick="loadDashboard();goPage('page-dashboard')">📊 Ver dashboard</button>
       </div>
     </div>
@@ -471,7 +402,7 @@
   <p class="footnote">Los datos se guardan en tu navegador como respaldo adicional.</p>
 </div>
 
-<!-- ═══ PAGE 6: DASHBOARD ═══ -->
+<!-- PAGE 6: DASHBOARD -->
 <div class="page" id="page-dashboard">
   <div class="dash-wrap">
     <div class="dash-header">
@@ -489,10 +420,7 @@
 
 <script>
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzx5hafAUzAlHvjwiy02lzk3uWyAlxtdDWP3t4EcaG16s4jTHF0URevOJ5HVlXjJViJ/exec';
-const EMAILJS_PUBLIC_KEY  = 'TU_PUBLIC_KEY_AQUI';
-const EMAILJS_SERVICE_ID  = 'TU_SERVICE_ID_AQUI';
-const EMAILJS_TEMPLATE_ID = 'TU_TEMPLATE_ID_AQUI';
-const CORREO_DESTINO      = 'tavovergel@gmail.com';
+const CORREO_DESTINO  = 'tavovergel@gmail.com';
 
 const EVALUADOS = ['Leidys Torres','Tomas Medina','David Rodelo'];
 const CRITERIOS = [
@@ -510,12 +438,12 @@ const CRITERIOS = [
     opciones:[
       {n:1,label:'Muy difícil',       desc:'Cambios estructurales, múltiples dependencias y más de 2 años de implementación.'},
       {n:2,label:'Difícil',           desc:'Varias áreas involucradas, 1-2 años y alta coordinación interdepartamental.'},
-      {n:3,label:'Complejidad media', desc:'Implementación en 6-12 meses con algunas dependencias manejables.'},
+      {n:3,label:'Complejidad media', desc:'6-12 meses con algunas dependencias manejables.'},
       {n:4,label:'Fácil',             desc:'Proyecto acotado, pocas dependencias, 3-6 meses, recursos disponibles.'},
       {n:5,label:'Muy fácil',         desc:'Menos de 3 meses, dentro del área, sin dependencias críticas.'},
     ]},
   { key:'relevancia', label:'Relevancia',                 peso:0.20, emoji:'🎯',
-    hint:'¿El problema que resuelve es importante para la compañía? Nivel estratégico, táctico u operativo.',
+    hint:'¿El problema es importante para la compañía? Nivel estratégico, táctico u operativo.',
     opciones:[
       {n:1,label:'Poco relevante',       desc:'Bajo impacto. Resuelve algo marginal o ya atendido.'},
       {n:2,label:'Bajo impacto',         desc:'Necesidad operativa menor sin repercusión amplia.'},
@@ -533,25 +461,24 @@ const CRITERIOS = [
       {n:5,label:'Mínimo o sin costo', desc:'Se ejecuta con recursos actuales sin presupuesto adicional.'},
     ]},
   { key:'claridad',  label:'Claridad y presentación',     peso:0.15, emoji:'📋',
-    hint:'¿Se entiende bien el proyecto? ¿Cumplió con el formato de presentación establecido?',
+    hint:'¿Se entiende bien el proyecto? ¿Cumplió con el formato de presentación?',
     opciones:[
       {n:1,label:'Confuso',             desc:'Sin estructura. No se entiende qué resuelve ni cómo.'},
       {n:2,label:'Poco claro',          desc:'Incompleto, secciones faltantes o argumentación débil.'},
       {n:3,label:'Entendible',          desc:'Se comprende y cumple el formato básico.'},
-      {n:4,label:'Claro y completo',    desc:'Cumple el formato con estructura lógica y argumentación sólida.'},
+      {n:4,label:'Claro y completo',    desc:'Formato con estructura lógica y argumentación sólida.'},
       {n:5,label:'Muy claro y ejemplar',desc:'Impecable. Narrativa persuasiva, bien estructurada, sin ambigüedades.'},
     ]},
 ];
 
-// Estado: scores y comments por evaluado
-let scores   = {};
-let comments = {};
-let sentList = {}; // evaluados ya enviados en esta sesión
+let scores    = {};
+let comments  = {};
+let sentList  = {}; // { 'Leidys Torres': true/false, ... } — cargado desde Sheets
 let currentEv = null;
 EVALUADOS.forEach(e=>{ scores[e]={}; comments[e]={}; sentList[e]=false; });
 
 // ── NAVEGACIÓN ────────────────────────────────
-function goPage(id) {
+function goPage(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   window.scrollTo(0,0);
@@ -560,48 +487,103 @@ function goPage(id) {
 }
 function toggleCard(id){document.getElementById(id).classList.toggle('open');}
 
-// ── IDENTIDAD ─────────────────────────────────
-function validateIdentity() {
-  const name=document.getElementById('eval-name').value;
-  const cargo=document.getElementById('eval-cargo').value.trim();
-  const fecha=document.getElementById('eval-fecha').value;
+// ── IDENTIDAD — consulta Sheets al continuar ──
+async function validateIdentity(){
+  const name  = document.getElementById('eval-name').value;
+  const cargo = document.getElementById('eval-cargo').value.trim();
+  const fecha = document.getElementById('eval-fecha').value;
   if(!name)  {showToast('Selecciona tu nombre');return;}
   if(!cargo) {showToast('Ingresa tu cargo');return;}
   if(!fecha) {showToast('Ingresa la fecha');return;}
+
+  // Bloquear botón y mostrar estado de carga
+  const btn = document.getElementById('btn-continuar');
+  btn.disabled=true;
+  btn.textContent='⏳ Verificando historial…';
+
+  // Resetear sentList antes de consultar
+  EVALUADOS.forEach(e=>{ sentList[e]=false; });
+
+  try {
+    const resp = await fetch(APPS_SCRIPT_URL+'?t='+Date.now());
+    const json = await resp.json();
+    const rows = (json.data||[]).slice(1).filter(r=>r[0]);
+    // Marcar como enviados los evaluados que ya tienen fila con este nombre
+    rows.forEach(r=>{
+      if(r[1]===name && EVALUADOS.includes(r[5])){
+        sentList[r[5]]=true;
+      }
+    });
+  } catch(e){
+    // Si falla la consulta, continuamos sin bloquear — mostramos aviso
+    showToast('Sin conexión: no se pudo verificar historial');
+    console.warn('Error consultando Sheets:', e);
+  }
+
+  btn.disabled=false;
+  btn.textContent='Continuar →';
   buildSelector();
   goPage('page-select');
 }
 
-// ── SELECTOR DE EVALUADO ──────────────────────
-function buildSelector() {
+// ── SELECTOR ──────────────────────────────────
+function buildSelector(){
+  const name    = document.getElementById('eval-name').value;
+  const doneEvs = EVALUADOS.filter(e=>sentList[e]);
+  const pending = EVALUADOS.filter(e=>!sentList[e]);
+
+  // Info resumen arriba del selector
+  const infoEl = document.getElementById('selector-info');
+  if(doneEvs.length===0){
+    infoEl.innerHTML=`Hola <strong>${name}</strong>, aún no tienes evaluaciones enviadas. Selecciona a quién evaluar.`;
+  } else if(doneEvs.length===EVALUADOS.length){
+    infoEl.innerHTML=`<span style="color:var(--success)">✓</span> <strong>${name}</strong>, ya enviaste las evaluaciones de los 3 candidatos. ¡Gracias!`;
+  } else {
+    infoEl.innerHTML=`<strong>${name}</strong> — Enviadas: <span style="color:var(--success)">${doneEvs.join(', ')}</span> · Pendientes: <span style="color:var(--gold)">${pending.join(', ')}</span>`;
+  }
+
   const container = document.getElementById('evaluado-selector');
   container.innerHTML = EVALUADOS.map((e,i)=>{
     const initials = e.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
-    const done = sentList[e];
-    const filled = CRITERIOS.filter(c=>scores[e][c.key]).length;
-    const status = done ? '✓ Enviado' : filled>0 ? `${filled}/5 criterios` : 'Sin calificar';
+    const done     = sentList[e];
+    const filled   = CRITERIOS.filter(c=>scores[e][c.key]).length;
+    let statusHtml, extraClass, clickAttr;
+    if(done){
+      statusHtml = `<div class="evaluado-status" style="color:var(--success)">✓ Ya enviado</div>`;
+      extraClass = 'done-card';
+      clickAttr  = '';
+    } else if(filled>0){
+      statusHtml = `<div class="evaluado-status" style="color:var(--gold)">${filled}/5 criterios completados</div>`;
+      extraClass = '';
+      clickAttr  = `onclick="selectEvaluado(${i})"`;
+    } else {
+      statusHtml = `<div class="evaluado-status">Pendiente de evaluar</div>`;
+      extraClass = '';
+      clickAttr  = `onclick="selectEvaluado(${i})"`;
+    }
     return `
-    <div class="evaluado-card ${done?'done-card':''}" onclick="selectEvaluado(${i})">
-      ${done?'<div class="done-badge">✓ Enviado</div>':''}
+    <div class="evaluado-card ${extraClass}" ${clickAttr}>
+      ${done?'<div class="done-badge">✓</div>':''}
       <div class="evaluado-avatar">${initials}</div>
       <div class="evaluado-name">${e}</div>
-      <div class="evaluado-status">${status}</div>
+      ${statusHtml}
     </div>`;
   }).join('');
 }
 
-function selectEvaluado(idx) {
-  currentEv = EVALUADOS[idx];
-  document.getElementById('eval-name-big').textContent = currentEv;
-  const initials = currentEv.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
-  document.getElementById('eval-avatar').textContent = initials;
+function selectEvaluado(idx){
+  const ev = EVALUADOS[idx];
+  if(sentList[ev]){ showToast('Ya enviaste la evaluación de '+ev); return; }
+  currentEv = ev;
+  document.getElementById('eval-name-big').textContent = ev;
+  document.getElementById('eval-avatar').textContent   = ev.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
   renderCriteria();
   goPage('page-eval');
 }
 
 // ── EVALUACIÓN ────────────────────────────────
-function renderCriteria() {
-  const ev = currentEv;
+function renderCriteria(){
+  const ev  = currentEv;
   document.getElementById('criteria-container').innerHTML = CRITERIOS.map(c=>{
     const val = scores[ev][c.key]||0;
     const com = comments[ev][c.key]||'';
@@ -623,48 +605,38 @@ function renderCriteria() {
       ${val?`<p class="weighted-score">Aporte: <span>${(val*c.peso).toFixed(2)}</span> / ${(5*c.peso).toFixed(2)} pts</p>`:''}
       <div class="comment-area">
         <label>💬 Comentario (opcional)</label>
-        <textarea placeholder="Observaciones sobre ${c.label} para ${ev}..."
-          onchange="setComment('${ev}','${c.key}',this.value)">${com}</textarea>
+        <textarea placeholder="Observaciones sobre ${c.label} para ${ev}..." onchange="setComment('${ev}','${c.key}',this.value)">${com}</textarea>
       </div>
     </div>`;
   }).join('');
   updateSingleProgress();
 }
 
-function setScore(ev,key,val){
-  scores[ev][key]=val;
-  renderCriteria();
-}
-function setComment(ev,key,val){comments[ev][key]=val;}
+function setScore(ev,key,val){ scores[ev][key]=val; renderCriteria(); }
+function setComment(ev,key,val){ comments[ev][key]=val; }
 
 function updateSingleProgress(){
   const filled = CRITERIOS.filter(c=>scores[currentEv][c.key]).length;
-  const pct = Math.round(filled/CRITERIOS.length*100);
-  document.getElementById('prog-fill').style.width=pct+'%';
-  document.getElementById('prog-pct').textContent=pct+'%';
-  document.getElementById('prog-label').textContent=`${filled} de ${CRITERIOS.length} criterios`;
-  document.getElementById('progress-bar').style.width=pct+'%';
+  const pct    = Math.round(filled/CRITERIOS.length*100);
+  document.getElementById('prog-fill').style.width   = pct+'%';
+  document.getElementById('prog-pct').textContent    = pct+'%';
+  document.getElementById('prog-label').textContent  = `${filled} de ${CRITERIOS.length} criterios`;
+  document.getElementById('progress-bar').style.width= pct+'%';
 }
 
-function calcFinal(ev){
-  return CRITERIOS.reduce((s,c)=>s+(scores[ev][c.key]||0)*c.peso,0);
-}
+function calcFinal(ev){ return CRITERIOS.reduce((s,c)=>s+(scores[ev][c.key]||0)*c.peso,0); }
 
-// ── FINALIZAR UNO ─────────────────────────────
+// ── FINALIZAR ─────────────────────────────────
 function finalizeSingle(){
   const missing = CRITERIOS.filter(c=>!scores[currentEv][c.key]).length;
-  if(missing){showToast(`Faltan ${missing} criterios por calificar`);return;}
-
-  const ev = currentEv;
+  if(missing){ showToast(`Faltan ${missing} criterios por calificar`); return; }
+  const ev    = currentEv;
   const final = calcFinal(ev);
   const name  = document.getElementById('eval-name').value;
   const cargo = document.getElementById('eval-cargo').value;
   const fecha = document.getElementById('eval-fecha').value;
-
-  document.getElementById('result-meta').textContent=`${name} · ${cargo} · ${fecha}`;
-
-  // Card resultado
-  document.getElementById('single-result-card').innerHTML=`
+  document.getElementById('result-meta').textContent = `${name} · ${cargo} · ${fecha}`;
+  document.getElementById('single-result-card').innerHTML = `
     <div class="sr-name">${ev}</div>
     <div class="sr-score">${final.toFixed(2)}</div>
     <div class="sr-label">/ 5.00 puntos ponderados</div>
@@ -672,67 +644,65 @@ function finalizeSingle(){
     <div class="sr-breakdown">
       ${CRITERIOS.map(c=>`<div class="sr-row"><span>${c.emoji} ${c.label}</span><span>${scores[ev][c.key]}/5 · ${(scores[ev][c.key]*c.peso).toFixed(2)} pts</span></div>`).join('')}
     </div>`;
-
-  // Mensaje siguiente acción
   const pendientes = EVALUADOS.filter(e=>!sentList[e] && e!==ev);
   document.getElementById('next-msg').textContent = pendientes.length>0
     ? `Aún puedes evaluar a: ${pendientes.join(' y ')}. Regresa a la selección cuando estés listo.`
-    : 'Has evaluado a todos los candidatos. Puedes ver el dashboard consolidado.';
-
-  // Reset botón sheets
-  const btn=document.getElementById('btn-sheets-single');
-  btn.disabled=false; btn.textContent='📊 Guardar Evaluación';
+    : 'Has completado todas las evaluaciones. ¡Gracias!';
+  const btn = document.getElementById('btn-sheets-single');
+  btn.disabled=false; btn.textContent='📊 Guardar en Sheets';
   document.getElementById('send-status-single').className='send-status';
-
-  saveLocalStorage();
   goPage('page-result');
 }
 
-// ── GUARDAR UNO EN SHEETS ─────────────────────
+// ── GUARDAR EN SHEETS ─────────────────────────
 async function saveSingleToSheets(){
-  const btn=document.getElementById('btn-sheets-single');
-  const status=document.getElementById('send-status-single');
-  const ev=currentEv;
-  const name=document.getElementById('eval-name').value;
-  const cargo=document.getElementById('eval-cargo').value;
-  const email=document.getElementById('eval-email').value;
-  const fecha=document.getElementById('eval-fecha').value;
-  const ts=new Date().toLocaleString('es-CO');
-
-  const filas=[[
+  const btn    = document.getElementById('btn-sheets-single');
+  const status = document.getElementById('send-status-single');
+  const ev     = currentEv;
+  const name   = document.getElementById('eval-name').value;
+  const cargo  = document.getElementById('eval-cargo').value;
+  const email  = document.getElementById('eval-email').value;
+  const fecha  = document.getElementById('eval-fecha').value;
+  const ts     = new Date().toLocaleString('es-CO');
+  const filas  = [[
     ts,name,cargo,email,fecha,ev,
-    scores[ev].impacto||0,scores[ev].facilidad||0,
-    scores[ev].relevancia||0,scores[ev].recursos||0,scores[ev].claridad||0,
+    scores[ev].impacto||0, scores[ev].facilidad||0,
+    scores[ev].relevancia||0, scores[ev].recursos||0, scores[ev].claridad||0,
     parseFloat(calcFinal(ev).toFixed(2)),
-    comments[ev].impacto||'',comments[ev].facilidad||'',
-    comments[ev].relevancia||'',comments[ev].recursos||'',comments[ev].claridad||''
+    comments[ev].impacto||'', comments[ev].facilidad||'',
+    comments[ev].relevancia||'', comments[ev].recursos||'', comments[ev].claridad||''
   ]];
-
   btn.disabled=true;
   status.className='send-status sending';
-  status.textContent='⏳ Enviando Evaluación...';
-
+  status.textContent='⏳ Guardando evaluación…';
   try{
     await fetch(APPS_SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({filas})});
-    status.className='send-status success';
-    status.textContent=`✓ Evaluación de ${ev} guardada Evaluación.`;
-    btn.textContent='✓ Guardado';
+    // Marcar como enviado en memoria para esta sesión
     sentList[ev]=true;
-    buildSelector(); // actualiza las cards
+    buildSelector();
+    status.className='send-status success';
+    status.textContent=`✓ Evaluación de ${ev} guardada en Google Sheets. Quedará marcada como enviada la próxima vez que entres.`;
+    btn.textContent='✓ Guardado';
     showToast(`✓ ${ev} guardado`);
+    // Actualizar mensaje de pendientes
+    const pendientes = EVALUADOS.filter(e=>!sentList[e]);
+    document.getElementById('next-msg').textContent = pendientes.length>0
+      ? `Aún puedes evaluar a: ${pendientes.join(' y ')}.`
+      : '✓ Has completado todas las evaluaciones. ¡Gracias!';
   }catch(err){
     status.className='send-status error';
     status.textContent='✗ Error al guardar. Descarga el CSV como respaldo.';
     btn.disabled=false;
+    console.error(err);
   }
 }
 
-// ── EXPORT CSV INDIVIDUAL ─────────────────────
+// ── CSV ───────────────────────────────────────
 function exportSingleCSV(){
-  const ev=currentEv;
-  const name=document.getElementById('eval-name').value;
-  const cargo=document.getElementById('eval-cargo').value;
-  const fecha=document.getElementById('eval-fecha').value;
+  const ev    = currentEv;
+  const name  = document.getElementById('eval-name').value;
+  const cargo = document.getElementById('eval-cargo').value;
+  const fecha = document.getElementById('eval-fecha').value;
   const headers=['Evaluador','Cargo','Fecha','Evaluado',...CRITERIOS.map(c=>c.label),'Puntaje Final',...CRITERIOS.map(c=>'Com. '+c.label)];
   const row=[name,cargo,fecha,ev,...CRITERIOS.map(c=>scores[ev][c.key]||0),calcFinal(ev).toFixed(2),...CRITERIOS.map(c=>(comments[ev][c.key]||'').replace(/,/g,';'))];
   download(`eval_${ev.replace(/ /g,'_')}_${name.replace(/ /g,'_')}_${fecha}.csv`,[headers,row].map(r=>r.join(',')).join('\n'),'text/csv');
@@ -753,13 +723,11 @@ async function loadDashboard(){
 
 function renderDashboard(rawData){
   if(!rawData||rawData.length<=1){
-    document.getElementById('dash-content').innerHTML=`<div class="dash-empty"><div class="big-icon">📋</div><p style="color:var(--text);font-size:1rem;margin-bottom:8px">Aún no hay evaluaciones</p><p style="font-size:.83rem">Cuando los evaluadores guarden sus evaluaciones aparecerán aquí.</p></div>`;
+    document.getElementById('dash-content').innerHTML=`<div class="dash-empty"><div class="big-icon">📋</div><p style="color:var(--text);font-size:1rem;margin-bottom:8px">Aún no hay evaluaciones</p><p style="font-size:.83rem">Aparecerán aquí cuando los evaluadores guarden sus evaluaciones.</p></div>`;
     return;
   }
   const rows=rawData.slice(1).filter(r=>r[0]);
   const totalEvals=new Set(rows.map(r=>r[1])).size;
-  const totalRegistros=rows.length;
-
   const byEv={};
   EVALUADOS.forEach(e=>{byEv[e]={sum:0,count:0,crit:{impacto:0,facilidad:0,relevancia:0,recursos:0,claridad:0},cnt:{impacto:0,facilidad:0,relevancia:0,recursos:0,claridad:0}};});
   rows.forEach(r=>{
@@ -770,14 +738,10 @@ function renderDashboard(rawData){
       if(v>0){byEv[ev].crit[k]+=v;byEv[ev].cnt[k]++;}
     });
   });
-
   const ranking=EVALUADOS.map(e=>({
-    name:e,
-    avg:byEv[e].count>0?byEv[e].sum/byEv[e].count:0,
-    count:byEv[e].count,
+    name:e,avg:byEv[e].count>0?byEv[e].sum/byEv[e].count:0,count:byEv[e].count,
     crit:Object.fromEntries(Object.keys(byEv[e].crit).map(k=>[k,byEv[e].cnt[k]>0?byEv[e].crit[k]/byEv[e].cnt[k]:0]))
   })).sort((a,b)=>b.avg-a.avg);
-
   const allComments=[];
   rows.forEach(r=>{
     const evaluado=r[5],evaluador=r[1];
@@ -786,17 +750,15 @@ function renderDashboard(rawData){
         allComments.push({evaluado,evaluador,criterio:CRITERIOS[i].label,emoji:CRITERIOS[i].emoji,texto:r[12+i]});
     });
   });
-
   document.getElementById('dash-content').innerHTML=`
     <div class="dash-stats">
       <div class="stat-card"><div class="stat-val">${totalEvals}</div><div class="stat-label">Evaluadores que han respondido</div></div>
       <div class="stat-card"><div class="stat-val">6</div><div class="stat-label">Evaluadores totales</div></div>
-      <div class="stat-card"><div class="stat-val">${totalRegistros}</div><div class="stat-label">Evaluaciones individuales guardadas</div></div>
+      <div class="stat-card"><div class="stat-val">${rows.length}</div><div class="stat-label">Evaluaciones guardadas</div></div>
       <div class="stat-card"><div class="stat-val">${ranking[0]?ranking[0].avg.toFixed(2):'—'}</div><div class="stat-label">Puntaje más alto (${ranking[0]?ranking[0].name.split(' ')[0]:'—'})</div></div>
     </div>
     <div class="dash-section-title">Ranking de candidatos</div>
-    <div class="ranking-grid">
-      ${ranking.map((r,i)=>`
+    <div class="ranking-grid">${ranking.map((r,i)=>`
       <div class="rank-card ${i===0?'top':''}">
         <div class="rank-badge">${i===0?'★ 1er lugar':i===1?'2do lugar':'3er lugar'}</div>
         <div class="rank-name">${r.name}</div>
@@ -807,37 +769,30 @@ function renderDashboard(rawData){
       </div>`).join('')}
     </div>
     <div class="dash-section-title">Detalle por evaluador</div>
-    <div class="eval-table-wrap">
-      <table class="eval-table">
-        <thead><tr><th>Evaluador</th><th>Fecha</th>${EVALUADOS.map(e=>`<th>${e.split(' ')[0]}</th>`).join('')}</tr></thead>
-        <tbody>${buildEvalTableRows(rows)}</tbody>
-      </table>
-    </div>
+    <div class="eval-table-wrap"><table class="eval-table">
+      <thead><tr><th>Evaluador</th><th>Fecha</th>${EVALUADOS.map(e=>`<th>${e.split(' ')[0]}</th>`).join('')}</tr></thead>
+      <tbody>${buildEvalTableRows(rows)}</tbody>
+    </table></div>
     <div class="dash-section-title">Promedio por criterio</div>
-    <div class="criteria-chart">
-      ${ranking.map(r=>`
+    <div class="criteria-chart">${ranking.map(r=>`
       <div class="chart-card">
         <div class="chart-card-title">${r.name}</div>
-        ${CRITERIOS.map(c=>`
-        <div class="chart-bar-row">
+        ${CRITERIOS.map(c=>`<div class="chart-bar-row">
           <span class="chart-bar-label">${c.emoji} ${c.label.split(' ')[0]}</span>
           <div class="chart-bar-track"><div class="chart-bar-fill" style="width:${((r.crit[c.key]||0)/5)*100}%"></div></div>
           <span class="chart-bar-val">${(r.crit[c.key]||0).toFixed(1)}</span>
         </div>`).join('')}
       </div>`).join('')}
     </div>
-    ${allComments.length>0?`
-    <div class="dash-section-title">Comentarios (${allComments.length})</div>
-    <div class="comments-grid">
-      ${allComments.map(c=>`
+    ${allComments.length>0?`<div class="dash-section-title">Comentarios (${allComments.length})</div>
+    <div class="comments-grid">${allComments.map(c=>`
       <div class="comment-card">
         <div class="comment-card-header">
           <div><div class="comment-evaluado">${c.evaluado}</div><div class="comment-evaluador">por ${c.evaluador}</div></div>
           <span class="comment-criterio">${c.emoji} ${c.criterio}</span>
         </div>
         <div class="comment-text">"${c.texto}"</div>
-      </div>`).join('')}
-    </div>`:''}`;
+      </div>`).join('')}</div>`:''}`;
 }
 
 function buildEvalTableRows(rows){
@@ -861,14 +816,6 @@ function buildEvalTableRows(rows){
     </tr>`).join('');
 }
 
-// ── UTILS ─────────────────────────────────────
-function saveLocalStorage(){
-  try{
-    const data={evaluador:document.getElementById('eval-name').value,cargo:document.getElementById('eval-cargo').value,fecha:document.getElementById('eval-fecha').value,evaluado:currentEv,scores:scores[currentEv],comments:comments[currentEv],timestamp:new Date().toISOString()};
-    const prev=JSON.parse(localStorage.getItem('beca_eval')||'[]');
-    prev.push(data);localStorage.setItem('beca_eval',JSON.stringify(prev));
-  }catch(e){}
-}
 function download(fn,content,mime){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([content],{type:mime}));a.download=fn;a.click();}
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3200);}
 
@@ -877,3 +824,4 @@ loadDashboard();
 </script>
 </body>
 </html>
+
