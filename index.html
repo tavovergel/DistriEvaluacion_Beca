@@ -311,6 +311,7 @@
             <option>Ramiro Ibarra</option><option>Paola Parra</option>
             <option>Virgilio Benitez</option><option>Diana Muttis</option>
             <option>Angelica Florez</option><option>Alvaro Rivera</option>
+            <option>Diana Elles</option>
           </select>
         </div>
         <div class="field">
@@ -753,7 +754,7 @@ function renderDashboard(rawData){
   document.getElementById('dash-content').innerHTML=`
     <div class="dash-stats">
       <div class="stat-card"><div class="stat-val">${totalEvals}</div><div class="stat-label">Evaluadores que han respondido</div></div>
-      <div class="stat-card"><div class="stat-val">6</div><div class="stat-label">Evaluadores totales</div></div>
+      <div class="stat-card"><div class="stat-val">7</div><div class="stat-label">Evaluadores totales</div></div>
       <div class="stat-card"><div class="stat-val">${rows.length}</div><div class="stat-label">Evaluaciones guardadas</div></div>
       <div class="stat-card"><div class="stat-val">${ranking[0]?ranking[0].avg.toFixed(2):'—'}</div><div class="stat-label">Puntaje más alto (${ranking[0]?ranking[0].name.split(' ')[0]:'—'})</div></div>
     </div>
